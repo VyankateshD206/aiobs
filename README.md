@@ -124,5 +124,5 @@ Sphinx documentation lives under `docs/`.
 GitHub Pages
 - Docs auto-deploy from `main` via GitHub Actions (pages.yml).
 - After merging to `main`, the site is available at:
-  - `https://neuralis.github.io/llm-observability/`
+  - `https://neuralis-in.github.io/llm-observability/`
   - If your org/user or repo name differs, GitHub Pages uses `https://<owner>.github.io/<repo>/`.
