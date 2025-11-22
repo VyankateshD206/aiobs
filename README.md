@@ -19,7 +19,7 @@ Using the SDK in your own project:
 ## Quick Start
 
 ```python
-from llm_observability import observer
+from aiobs import observer
 
 observer.observe()    # start a session and auto-instrument providers
 # ... make your LLM calls (e.g., OpenAI Chat Completions) ...
@@ -52,10 +52,10 @@ By default, events flush to `./llm_observability.json`. Override with `LLM_OBS_O
 
 Internally, the SDK structures data with Pydantic models (v2):
 
-- `llm_observability.models.Session`
-- `llm_observability.models.Event`
-- `llm_observability.models.ObservedEvent` (Event + `session_id`)
-- `llm_observability.models.ObservabilityExport` (flush payload)
+- `aiobs.models.Session`
+- `aiobs.models.Event`
+- `aiobs.models.ObservedEvent` (Event + `session_id`)
+- `aiobs.models.ObservabilityExport` (flush payload)
 
 These are exported to allow downstream tooling to parse and validate the JSON output and to build integrations.
 
@@ -63,13 +63,13 @@ These are exported to allow downstream tooling to parse and validate the JSON ou
 
 Providers are classes that implement a small abstract interface and install their own hooks.
 
-- Base class: `llm_observability.providers.base.BaseProvider`
+- Base class: `aiobs.providers.base.BaseProvider`
 - Built-in: `OpenAIProvider` (auto-detected and installed if `openai` is available)
 
 Custom provider skeleton:
 
 ```python
-from llm_observability import BaseProvider
+from aiobs import BaseProvider
 
 class MyProvider(BaseProvider):
     name = "my-provider"
@@ -90,7 +90,7 @@ class MyProvider(BaseProvider):
         return unpatch
 
 # Register before observe()
-from llm_observability import observer
+from aiobs import observer
 observer.register_provider(MyProvider())
 observer.observe()
 ```
@@ -101,7 +101,7 @@ If you don’t explicitly register providers, the collector auto-loads built-ins
 
 - Core
   - `Collector` holds sessions/events and flushes a single JSON file.
-  - `llm_observability.models.*` define Pydantic schemas for sessions/events/export.
+  - `aiobs.models.*` define Pydantic schemas for sessions/events/export.
 - Providers (N-layered)
   - `providers/base.py`: `BaseProvider` interface.
   - `providers/openai/provider.py`: orchestrates OpenAI API modules.

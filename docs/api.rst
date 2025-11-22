@@ -4,7 +4,7 @@ API Reference
 Collector
 ---------
 
-.. automodule:: llm_observability.collector
+.. automodule:: aiobs.collector
    :members:
    :undoc-members:
    :show-inheritance:
@@ -12,7 +12,7 @@ Collector
 Models
 ------
 
-.. automodule:: llm_observability.models.observability
+.. automodule:: aiobs.models.observability
    :members:
    :undoc-members:
    :show-inheritance:
@@ -23,7 +23,7 @@ Providers
 Base Provider
 ^^^^^^^^^^^^^
 
-.. automodule:: llm_observability.providers.base
+.. automodule:: aiobs.providers.base
    :members:
    :undoc-members:
    :show-inheritance:
@@ -31,7 +31,7 @@ Base Provider
 OpenAI Provider
 ^^^^^^^^^^^^^^^
 
-.. automodule:: llm_observability.providers.openai.provider
+.. automodule:: aiobs.providers.openai.provider
    :members:
    :undoc-members:
    :show-inheritance:
@@ -39,12 +39,12 @@ OpenAI Provider
 OpenAI API Modules
 ^^^^^^^^^^^^^^^^^^
 
-.. automodule:: llm_observability.providers.openai.apis.base_api
+.. automodule:: aiobs.providers.openai.apis.base_api
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: llm_observability.providers.openai.apis.chat_completions
+.. automodule:: aiobs.providers.openai.apis.chat_completions
    :members:
    :undoc-members:
    :show-inheritance:
@@ -52,13 +52,12 @@ OpenAI API Modules
 OpenAI API Models
 ^^^^^^^^^^^^^^^^^
 
-.. automodule:: llm_observability.providers.openai.apis.models.base
+.. automodule:: aiobs.providers.openai.apis.models.base
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: llm_observability.providers.openai.apis.models.chat_completions
+.. automodule:: aiobs.providers.openai.apis.models.chat_completions
    :members:
    :undoc-members:
    :show-inheritance:
-

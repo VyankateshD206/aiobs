@@ -24,4 +24,3 @@ class BaseOpenAIResponse(BaseModel):
     def redacted(self) -> "BaseOpenAIResponse":
         """Return a copy safe for logging (override in subclasses)."""
         return self
-

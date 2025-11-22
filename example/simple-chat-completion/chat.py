@@ -7,7 +7,7 @@ from dotenv import load_dotenv, find_dotenv
 _repo_root = os.path.dirname(os.path.dirname(__file__))
 if _repo_root not in sys.path:
     sys.path.insert(0, _repo_root)
-from llm_observability import observer  # noqa: E402
+from aiobs import observer  # noqa: E402
 
 
 def main() -> None:

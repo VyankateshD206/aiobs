@@ -97,7 +97,7 @@ class ChatCompletionsAPI(BaseOpenAIAPIModule):
                 for fi in frames:
                     fname = os.path.abspath(fi.filename)
                     if (
-                        f"{os.sep}llm_observability{os.sep}" in fname
+                        f"{os.sep}aiobs{os.sep}" in fname
                         or f"{os.sep}site-packages{os.sep}openai{os.sep}" in fname
                         or fname.endswith("openai/__init__.py")
                     ):

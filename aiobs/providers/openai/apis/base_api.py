@@ -17,4 +17,3 @@ class BaseOpenAIAPIModule(ABC):
     def install(self, collector: Any) -> Optional[Callable[[], None]]:
         """Install instrumentation and return optional unpatch function."""
         raise NotImplementedError
-

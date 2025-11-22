@@ -14,7 +14,7 @@ Quick Start
 
 .. code-block:: python
 
-   from llm_observability import observer
+   from aiobs import observer
 
    observer.observe()    # start a session and auto-instrument providers
    # ... make your LLM calls ...

@@ -20,4 +20,3 @@ class ChatCompletionsRequest(BaseOpenAIRequest):
 
 class ChatCompletionsResponse(BaseOpenAIResponse):
     text: Optional[str] = Field(default=None)
-

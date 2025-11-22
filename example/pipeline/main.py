@@ -2,12 +2,12 @@ import os
 import sys
 from typing import Optional
 
-# Make repo root importable for local package (llm_observability)
+# Make repo root importable for local package (aiobs)
 _repo_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 if _repo_root not in sys.path:
     sys.path.insert(0, _repo_root)
 
-from llm_observability import observer  # noqa: E402
+from aiobs import observer  # noqa: E402
 
 # Support running as a module or a script
 try:  # package-relative imports (when run with -m example.pipeline.main)

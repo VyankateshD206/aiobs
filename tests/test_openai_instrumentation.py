@@ -5,7 +5,7 @@ import pytest
 
 pytest.importorskip("openai")
 
-from llm_observability import observer
+from aiobs import observer
 
 
 def test_openai_chat_completions_instrumentation(monkeypatch, tmp_path):
