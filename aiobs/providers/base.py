@@ -22,4 +22,3 @@ class BaseProvider(ABC):
     def install(self, collector: Any) -> Optional[Callable[[], None]]:
         """Apply instrumentation and return an optional unpatch function."""
         raise NotImplementedError
-

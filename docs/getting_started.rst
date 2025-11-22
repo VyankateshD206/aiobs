@@ -26,10 +26,9 @@ Hello, Observability
 
 Minimal example::
 
-    from llm_observability import observer
+    from aiobs import observer
 
     observer.observe()
     # ... make your LLM calls ...
     observer.end()
     observer.flush()  # writes llm_observability.json
-

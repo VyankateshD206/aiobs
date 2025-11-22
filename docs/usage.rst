@@ -8,7 +8,7 @@ The repository includes a simple example at ``example/simple-chat-completion/cha
 
 Key lines::
 
-    from llm_observability import observer
+    from aiobs import observer
 
     observer.observe()
     # Call OpenAI Chat Completions via openai>=1
@@ -28,4 +28,3 @@ Output
 ------
 
 By default, ``observer.flush()`` writes ``./llm_observability.json``. Override with the ``LLM_OBS_OUT`` environment variable.
-

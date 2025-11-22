@@ -1,7 +1,7 @@
 import json
 import os
-from llm_observability import observer
-from llm_observability.models import Event as ObsEvent
+from aiobs import observer
+from aiobs.models import Event as ObsEvent
 
 
 def test_observer_flush_json_structure(tmp_path):
@@ -44,4 +44,3 @@ def test_observer_flush_json_structure(tmp_path):
         "session_id",
     ]:
         assert key in e
-

@@ -46,4 +46,3 @@ class OpenAIProvider(BaseProvider):
                     pass
 
         return unpatch_all if unpatchers else None
-

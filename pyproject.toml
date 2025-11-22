@@ -3,7 +3,7 @@ requires = ["hatchling>=1.18.0"]
 build-backend = "hatchling.build"
 
 [project]
-name = "llm-observability"
+name = "aiobs"
 version = "0.1.0"
 description = "Minimal, extensible LLM observability SDK (OpenAI supported)."
 readme = "README.md"

@@ -1,20 +1,10 @@
-"""Minimal LLM observability SDK.
+import warnings
 
-Usage (global singleton):
+warnings.warn(
+    "Package 'llm_observability' has been renamed to 'aiobs'. Please update your imports.",
+    DeprecationWarning,
+    stacklevel=2,
+)
 
-    from llm_observability import observer
-    observer.observe()  # enable instrumentation
-    # ... make LLM calls ...
-    observer.end()      # end current session
-    observer.flush()    # write a single JSON file to disk
+from aiobs import *  # noqa: F401,F403
 
-Extensible provider model with OpenAI support out of the box.
-"""
-
-from .collector import Collector
-from .providers.base import BaseProvider
-
-# Global collector singleton, intentionally simple API
-observer = Collector()
-
-__all__ = ["observer", "Collector", "BaseProvider"]
