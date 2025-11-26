@@ -8,6 +8,7 @@ if _repo_root not in sys.path:
     sys.path.insert(0, _repo_root)
 
 from aiobs import observer  # noqa: E402
+from aiobs.exporters import GCSExporter  # noqa: E402
 
 # Support running as a module or a script
 try:  # package-relative imports (when run with -m example.pipeline.main)
@@ -25,7 +26,7 @@ except Exception:  # fallback for direct script run: python example/pipeline/mai
     from pipeline.tasks.critique import critique  # type: ignore
 
 
-def main(query: Optional[str] = None) -> None:
+def main(query: Optional[str] = None, use_gcs: bool = False) -> None:
     client = make_client()
     model = default_model()
 
@@ -49,11 +50,26 @@ def main(query: Optional[str] = None) -> None:
         print("Improved:\n" + improved + "\n")
     finally:
         observer.end()
-        out = observer.flush()
-        print(f"Observability written to: {out}")
+        
+        if use_gcs:
+            # Export to Google Cloud Storage
+            # Set env vars: AIOBS_GCS_BUCKET, AIOBS_GCS_PREFIX (optional), AIOBS_GCS_PROJECT (optional)
+            exporter = GCSExporter(
+                bucket=os.environ["AIOBS_GCS_BUCKET"],
+                prefix=os.getenv("AIOBS_GCS_PREFIX", "traces/"),
+                project=os.getenv("AIOBS_GCS_PROJECT"),
+            )
+            result = observer.flush(exporter=exporter)
+            print(f"Observability exported to: {result.destination}")
+        else:
+            out = observer.flush()
+            print(f"Observability written to: {out}")
 
 
 if __name__ == "__main__":
-    # Accept an optional query as a CLI arg
-    arg_query = sys.argv[1] if len(sys.argv) > 1 else None
-    main(arg_query)
+    # Usage: python main.py [query] [--gcs]
+    # Export to GCS: AIOBS_GCS_BUCKET=my-bucket python main.py --gcs
+    use_gcs = "--gcs" in sys.argv
+    args = [a for a in sys.argv[1:] if a != "--gcs"]
+    arg_query = args[0] if args else None
+    main(arg_query, use_gcs=use_gcs)

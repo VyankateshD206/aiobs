@@ -23,6 +23,21 @@ Function tracing with @observe decorator:
     @observe(name="custom_name")
     async def my_async_function():
         ...
+
+Export to cloud storage or custom destinations:
+
+    from aiobs import observer
+    from aiobs.exporters import GCSExporter
+
+    exporter = GCSExporter(
+        bucket="my-observability-bucket",
+        prefix="traces/",
+        project="my-gcp-project",
+    )
+    observer.observe()
+    # ... your agent code ...
+    observer.end()
+    observer.flush(exporter=exporter)
 """
 
 from .collector import Collector
@@ -41,6 +56,9 @@ from .models import (
     Callsite,
 )
 
+# Import exporter base classes (cloud-specific exporters use lazy imports)
+from .exporters.base import BaseExporter, ExportResult, ExportError
+
 # Global collector singleton, intentionally simple API
 observer = Collector()
 
@@ -52,6 +70,10 @@ __all__ = [
     # For custom provider development
     "Collector",
     "BaseProvider",
+    # Exporter base classes
+    "BaseExporter",
+    "ExportResult",
+    "ExportError",
     # Data models (for parsing/validation)
     "Session",
     "SessionMeta",
