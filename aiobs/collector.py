@@ -6,7 +6,7 @@ import os
 import threading
 import time
 import uuid
-from typing import Any, Callable, Dict, List, Optional, Union
+from typing import Any, Callable, Dict, List, Optional, Union, TYPE_CHECKING
 
 from .models import (
     Session as ObsSession,
@@ -17,6 +17,9 @@ from .models import (
     ObservedFunctionEvent,
     ObservabilityExport,
 )
+
+if TYPE_CHECKING:
+    from .exporters.base import BaseExporter, ExportResult
 
 # Context variable to track current span for nested tracing
 _current_span_id: contextvars.ContextVar[Optional[str]] = contextvars.ContextVar(
@@ -30,7 +33,7 @@ class Collector:
     API:
       - observe(): enable instrumentation and start a session
       - end(): finish current session
-      - flush(): write captured data to JSON (default: ./llm_observability.json)
+      - flush(): write captured data to JSON (default: ./<session-id>.json)
     """
 
     def __init__(self) -> None:
@@ -74,22 +77,28 @@ class Collector:
             self._sessions[self._active_session] = sess.model_copy(update={"ended_at": _now()})
             self._active_session = None
 
-    def flush(self, path: Optional[str] = None, include_trace_tree: bool = True) -> str:
-        """Flush all sessions and events to a single JSON file.
+    def flush(
+        self,
+        path: Optional[str] = None,
+        include_trace_tree: bool = True,
+        exporter: Optional["BaseExporter"] = None,
+        **exporter_kwargs: Any,
+    ) -> Union[str, "ExportResult"]:
+        """Flush all sessions and events to a file or custom exporter.
 
         Args:
-            path: Output file path. Defaults to LLM_OBS_OUT env var or 'llm_observability.json'.
+            path: Output file path. Defaults to LLM_OBS_OUT env var or '<session-id>.json'.
+                  Ignored if exporter is provided.
             include_trace_tree: Whether to include the nested trace_tree structure. Defaults to True.
+            exporter: Optional exporter instance (e.g., GCSExporter, CustomExporter).
+                      If provided, data is exported using this exporter instead of writing to a local file.
+            **exporter_kwargs: Additional keyword arguments passed to the exporter's export() method.
 
-        Returns the output path used.
+        Returns:
+            If exporter is provided: ExportResult from the exporter.
+            Otherwise: The output file path used.
         """
         with self._lock:
-            out_path = path or os.getenv("LLM_OBS_OUT", "llm_observability.json")
-            # Ensure directory exists if a nested path
-            out_dir = os.path.dirname(out_path)
-            if out_dir and not os.path.exists(out_dir):
-                os.makedirs(out_dir, exist_ok=True)
-
             # Separate standard events from function events
             standard_events = []
             function_events = []
@@ -116,6 +125,30 @@ class Collector:
                 trace_tree=trace_tree if include_trace_tree else None,
                 generated_at=_now(),
             )
+
+            # Use exporter if provided
+            if exporter is not None:
+                result = exporter.export(export, **exporter_kwargs)
+                # Clear in-memory store after successful export
+                self._sessions.clear()
+                self._events.clear()
+                self._active_session = None
+                return result
+
+            # Default: write to local file
+            # Determine default filename based on session ID
+            default_filename = "llm_observability.json"
+            if self._active_session:
+                default_filename = f"{self._active_session}.json"
+            elif self._sessions:
+                # Use the first session ID if no active session
+                default_filename = f"{next(iter(self._sessions.keys()))}.json"
+            
+            out_path = path or os.getenv("LLM_OBS_OUT", default_filename)
+            # Ensure directory exists if a nested path
+            out_dir = os.path.dirname(out_path)
+            if out_dir and not os.path.exists(out_dir):
+                os.makedirs(out_dir, exist_ok=True)
 
             # Write/overwrite JSON file
             with open(out_path, "w", encoding="utf-8") as f:
