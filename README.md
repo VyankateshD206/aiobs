@@ -23,6 +23,24 @@ pip install aiobs[gemini]
 pip install aiobs[all]
 ```
 
+## Get Your API Key
+
+An API key is required to use aiobs. Get your free API key from:
+
+👉 **https://neuralis-in.github.io/shepherd/api-keys**
+
+Once you have your API key, set it as an environment variable:
+
+```bash
+export AIOBS_API_KEY=aiobs_sk_your_key_here
+```
+
+Or add it to your `.env` file:
+
+```
+AIOBS_API_KEY=aiobs_sk_your_key_here
+```
+
 ## Quick Start
 
 ```python
@@ -32,6 +50,12 @@ observer.observe()    # start a session and auto-instrument providers
 # ... make your LLM calls (OpenAI, Gemini, etc.) ...
 observer.end()        # end the session
 observer.flush()      # write a single JSON file to disk
+```
+
+You can also pass the API key directly:
+
+```python
+observer.observe(api_key="aiobs_sk_your_key_here")
 ```
 
 By default, events flush to `./llm_observability.json`. Override with `LLM_OBS_OUT=/path/to/file.json`.

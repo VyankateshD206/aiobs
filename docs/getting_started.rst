@@ -20,8 +20,27 @@ Install
 
     pip install aiobs[openai,gemini,example]
 
-Configure
----------
+Get Your API Key
+----------------
+
+An API key is required to use aiobs. Get your free API key from:
+
+👉 **https://neuralis-in.github.io/shepherd/api-keys**
+
+Once you have your API key, set it as an environment variable::
+
+    export AIOBS_API_KEY=aiobs_sk_your_key_here
+
+Or add it to your ``.env`` file::
+
+    AIOBS_API_KEY=aiobs_sk_your_key_here
+
+You can also pass the API key directly when starting a session::
+
+    observer.observe(api_key="aiobs_sk_your_key_here")
+
+Configure Provider Credentials
+------------------------------
 
 Create a ``.env`` at your project root with provider credentials:
 

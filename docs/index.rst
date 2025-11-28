@@ -15,6 +15,15 @@ Supported Providers
 - **OpenAI** — Chat Completions API (``openai>=1.0``)
 - **Google Gemini** — Generate Content API (``google-genai>=1.0``)
 
+API Key
+-------
+
+An API key is required to use aiobs. Get your free API key from:
+
+👉 **https://neuralis-in.github.io/shepherd/api-keys**
+
+Set it as an environment variable: ``export AIOBS_API_KEY=aiobs_sk_your_key_here``
+
 Quick Start
 -----------
 
