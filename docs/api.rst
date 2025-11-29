@@ -60,6 +60,11 @@ OpenAI API Modules
    :undoc-members:
    :show-inheritance:
 
+.. automodule:: aiobs.providers.openai.apis.embeddings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 OpenAI API Models
 """""""""""""""""
 
@@ -69,6 +74,11 @@ OpenAI API Models
    :show-inheritance:
 
 .. automodule:: aiobs.providers.openai.apis.models.chat_completions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: aiobs.providers.openai.apis.models.embeddings
    :members:
    :undoc-members:
    :show-inheritance:

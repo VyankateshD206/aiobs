@@ -15,6 +15,47 @@ Key lines::
     observer.end()
     observer.flush()
 
+OpenAI Embeddings
+-----------------
+
+aiobs automatically instruments OpenAI's ``embeddings.create`` API::
+
+    from aiobs import observer
+    from openai import OpenAI
+
+    observer.observe()
+
+    client = OpenAI()
+    response = client.embeddings.create(
+        model="text-embedding-3-small",
+        input="Hello world"
+    )
+
+    observer.end()
+    observer.flush()
+
+The captured data includes:
+
+- **Request**: model, input text(s), encoding_format, dimensions
+- **Response**: embedding vectors, dimensions, usage statistics
+- **Timing**: start/end timestamps, ``duration_ms``
+
+For batch embeddings with multiple inputs::
+
+    from aiobs import observer
+    from openai import OpenAI
+
+    observer.observe()
+
+    client = OpenAI()
+    response = client.embeddings.create(
+        model="text-embedding-3-small",
+        input=["Hello world", "Goodbye world", "How are you?"]
+    )
+
+    observer.end()
+    observer.flush()
+
 Gemini Generate Content
 -----------------------
 
@@ -144,9 +185,9 @@ What Gets Captured
 For each LLM API call:
 
 - **Provider**: ``openai`` or ``gemini``
-- **API**: e.g., ``chat.completions`` or ``models.generateContent``
-- **Request**: model, messages/contents, core parameters
-- **Response**: text, model, token usage (when available)
+- **API**: e.g., ``chat.completions.create``, ``embeddings.create``, or ``models.generateContent``
+- **Request**: model, messages/contents/input, core parameters
+- **Response**: text (for completions), embeddings (for embeddings API), model, token usage (when available)
 - **Timing**: start/end timestamps, ``duration_ms``
 - **Errors**: exception name and message if the call fails
 - **Callsite**: file path, line number, and function name where the API was called

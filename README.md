@@ -4,7 +4,7 @@ A tiny, extensible observability layer for LLM calls. Add three lines around you
 
 ## Supported Providers
 
-- **OpenAI** — Chat Completions API (`openai>=1.0`)
+- **OpenAI** — Chat Completions API, Embeddings API (`openai>=1.0`)
 - **Google Gemini** — Generate Content API (`google-genai>=1.0`)
 
 ## Quick Install
@@ -62,7 +62,7 @@ By default, events flush to `./llm_observability.json`. Override with `LLM_OBS_O
 
 ## Provider Examples
 
-### OpenAI
+### OpenAI Chat Completions
 
 ```python
 from aiobs import observer
@@ -74,6 +74,24 @@ client = OpenAI()
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[{"role": "user", "content": "Hello!"}]
+)
+
+observer.end()
+observer.flush()
+```
+
+### OpenAI Embeddings
+
+```python
+from aiobs import observer
+from openai import OpenAI
+
+observer.observe()
+
+client = OpenAI()
+response = client.embeddings.create(
+    model="text-embedding-3-small",
+    input="Hello world"
 )
 
 observer.end()
@@ -204,9 +222,9 @@ The JSON output will include:
 ## What Gets Captured (LLM Calls)
 
 - **Provider**: `openai` or `gemini`
-- **API**: e.g., `chat.completions` or `models.generateContent`
-- **Request**: model, messages/contents, core parameters
-- **Response**: text, model, token usage (when available)
+- **API**: e.g., `chat.completions.create`, `embeddings.create`, or `models.generateContent`
+- **Request**: model, messages/contents/input, core parameters
+- **Response**: text (for completions), embeddings (for embeddings API), model, token usage (when available)
 - **Timing**: start/end timestamps, `duration_ms`
 - **Errors**: exception name and message if the call fails
 - **Callsite**: file path, line number, and function name where the API was called
@@ -266,7 +284,7 @@ observer.observe()
   - `aiobs.models.*` define Pydantic schemas for sessions/events/export.
 - **Providers** (N-layered)
   - `providers/base.py`: `BaseProvider` interface.
-  - `providers/openai/`: OpenAI Chat Completions instrumentation.
+  - `providers/openai/`: OpenAI Chat Completions and Embeddings instrumentation.
   - `providers/gemini/`: Google Gemini Generate Content instrumentation.
 
 Providers construct Pydantic request/response models and pass typed `Event` objects to the collector; only the collector serializes to JSON.
