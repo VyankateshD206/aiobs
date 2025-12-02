@@ -1,4 +1,5 @@
 # aiobs
+[![PyPI](https://img.shields.io/pypi/v/aiobs)](https://pypi.org/project/aiobs/)
 
 `aiobs` is a lightweight Python library that adds **observability** to AI/LLM applications. Trace every call, capture inputs/outputs, measure latency, and debug failures—with just 3 lines of code. Built-in support for OpenAI and Google Gemini.
 
