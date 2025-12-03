@@ -1,5 +1,5 @@
 # aiobs
-[![PyPI](https://img.shields.io/pypi/v/aiobs)](https://pypi.org/project/aiobs/)
+[![PyPI](https://img.shields.io/pypi/v/aiobs)](https://pypi.org/project/aiobs/) [![aiobs-chat](https://img.shields.io/badge/zulip-join_chat-brightgreen.svg)](https://aiobs.zulipchat.com/)
 
 `aiobs` is a lightweight Python library that adds **observability** to AI/LLM applications. Trace every call, capture inputs/outputs, measure latency, and debug failures—with just 3 lines of code. Built-in support for OpenAI and Google Gemini.
 
@@ -439,14 +439,10 @@ Open `docs/_build/html/index.html` in your browser.
 
 ### Online Documentation
 
-Docs auto-deploy via GitHub Actions:  
-👉 [https://neuralis-in.github.io/aiobs/](https://neuralis-in.github.io/aiobs/)
+Docs auto-deploy via GitHub Actions: [aiobs-docs](https://neuralis-in.github.io/aiobs/)
 
+---
 
+## Community & Support
 
-## About
-
-aiobs is an open, extensible Python SDK supporting AI observability and agentic traceability as part of the Shepherd project.
-
-👉 [https://neuralis-in.github.io/shepherd/](https://neuralis-in.github.io/shepherd/)  
-👉 [https://github.com/neuralis-in/aiobs](https://github.com/neuralis-in/aiobs)
+Join the Zulip community for discussions, help, and feature requests: [aiobs-zulip-chat](https://aiobs.zulipchat.com/)
